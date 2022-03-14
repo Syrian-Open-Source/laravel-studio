@@ -1,4 +1,4 @@
-name: Run tests
+name: Install & Build & Test
 
 on: [push, pull_request]
 
@@ -9,15 +9,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: [7.4, 8.0]
-        laravel: [8.*,7.*]
+        php: [8.0]
+        laravel: [8.*]
         dependency-version: [prefer-stable]
         include:
           - testbench: ^6.23
             laravel: 8.*
-
-          - testbench: 5.20
-            laravel: 7.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -34,7 +31,10 @@ jobs:
 
       -   name: Install dependencies
           run: |
-            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-            composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+            composer install
+            php artisan key:generate
+            cd client
+            cp .env.example .env
+
       -   name: Execute tests
           run: vendor/bin/phpunit

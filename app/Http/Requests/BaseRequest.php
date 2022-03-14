@@ -12,6 +12,7 @@ class BaseRequest extends FormRequest
 {
     use Response;
 
+    protected $formatMessage = false;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -34,13 +35,14 @@ class BaseRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        $errors = $this->responseError(null,
+        $response = $this->responseError(
+            null,
                 collect($validator->errors())->values()->collapse(),
                 true,
-                $this->VALIDATION_ERROR
+                static::$VALIDATION_ERROR
             );
 
-        throw new HttpResponseException($errors);
+        throw new HttpResponseException($response);
     }
 
     /**
