@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 
-
 use App\Models\Post;
 use App\Models\User;
 
@@ -20,6 +19,13 @@ class PostTest extends BaseFeatureTest
      *
      */
     const POST_API = '/api/posts';
+
+    /**
+     *
+     * @author karam mustafa
+     * @var \App\Models\User
+     */
+    private User $user = null;
 
     /**
      * test get all posts.
@@ -61,19 +67,15 @@ class PostTest extends BaseFeatureTest
      */
     public function test_create_new_post()
     {
-        // create a new user.
-        $user = User::factory()->create();
-
         // post new request to create a post.
-        $this->postJson(static::POST_API,[
-            'user_id' => $user->id,
+        $this->postJson(static::POST_API, [
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
         ])->assertStatus(static::$SUCCESS_RESPONSE);
-
         // check database records.
         $this->assertDatabaseHas('posts', [
-            'user_id' => $user->id,
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
         ]);
@@ -87,40 +89,42 @@ class PostTest extends BaseFeatureTest
     public function test_edit_custom_post()
     {
         // create new post
-        $user = User::factory()->create();
-        $this->postJson(static::POST_API,[
-            'user_id' => $user->id,
+        $this->postJson(static::POST_API, [
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
         ])->assertStatus(static::$SUCCESS_RESPONSE);
-
         // check database records.
         $this->assertDatabaseHas('posts', [
-            'user_id' => $user->id,
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
         ]);
 
         $post = Post::first();
-
         //edit post
-        $this->putJson(static::POST_API."/{$post->id}",[
-            'user_id' => $user->id,
+        $this->putJson(static::POST_API."/{$post->id}", [
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description updated',
             'title' => 'dummy title updated',
         ])->assertStatus(static::$SUCCESS_RESPONSE);
-
         // check if post was edited successfully
         $this->assertDatabaseHas('posts', [
-            'user_id' => $user->id,
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description updated',
             'title' => 'dummy title updated',
         ]);
     }
 
-    public function test_delete_post(){
+    /**
+     * description
+     *
+     * @author karam mustafa
+     */
+    public function test_delete_post()
+    {
 
-        $this->postJson(static::POST_API,[
+        $this->postJson(static::POST_API, [
             'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
@@ -128,17 +132,27 @@ class PostTest extends BaseFeatureTest
 
         // check database records.
         $this->assertDatabaseHas('posts', [
-            'user_id' => $user->id,
+            'user_id' => $this->create_user()->id,
             'description' => 'dummy description',
             'title' => 'dummy title',
         ]);
 
         $post = Post::first();
 
-        $this->deleteJson(static::POST_API."/{$post->id}",[])->assertStatus(static::$SUCCESS_RESPONSE);
+        $this->deleteJson(static::POST_API."/{$post->id}", [])->assertStatus(static::$SUCCESS_RESPONSE);
     }
 
-    public function create_user(){
-        return User::factory()->create();
+    /**
+     * create a new user
+     *
+     * @return \App\Models\User|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @author karam mustafa
+     */
+    public function create_user()
+    {
+        if (!$this->user) {
+            $this->user = User::factory()->create();
+        }
+        return $this->user;
     }
 }
