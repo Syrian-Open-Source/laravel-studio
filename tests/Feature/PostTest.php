@@ -16,10 +16,9 @@ class PostTest extends BaseFeatureTest
      */
     public function test_obtain_posts()
     {
-
-        $this->get(static::POST_API)->assertStatus($this->SUCCESS_RESPONSE);
-
+        $this->get(static::POST_API)->assertStatus(static::$SUCCESS_RESPONSE);
     }
+
     /**
      * test get validation error
      *

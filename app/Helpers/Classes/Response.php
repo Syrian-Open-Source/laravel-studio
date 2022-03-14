@@ -13,37 +13,37 @@ trait Response
      * @author karam mustafa
      * @var int
      */
-    public int $SUCCESS_RESPONSE = 200;
+    public static $SUCCESS_RESPONSE = 200;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $ERROR_RESPONSE = 400;
+    public static $ERROR_RESPONSE = 400;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $SERVER_ERROR = 500;
+    public static $SERVER_ERROR = 500;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $VALIDATION_ERROR = 422;
+    public static $VALIDATION_ERROR = 422;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $AUTH_ERROR = 401;
+    public static $AUTH_ERROR = 401;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $FORBIDDEN_ERROR = 403;
+    public static $FORBIDDEN_ERROR = 403;
     /**
      * @author karam mustafa
      * @var int
      */
-    public int $NOT_FOUND = 404;
+    public static $NOT_FOUND = 404;
 
 
     /**
