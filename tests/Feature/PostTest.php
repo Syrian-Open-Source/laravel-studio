@@ -140,6 +140,7 @@ class PostTest extends BaseFeatureTest
         $post = Post::first();
 
         $this->deleteJson(static::POST_API."/{$post->id}", [])->assertStatus(static::$SUCCESS_RESPONSE);
+        $this->assertEquals(0 , Post::count());
     }
 
     /**
