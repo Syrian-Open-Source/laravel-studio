@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 
+
+use App\Models\User;
+
 /**
  * Class PostTest
  *
@@ -48,5 +51,22 @@ class PostTest extends BaseFeatureTest
         $this->post(static::POST_API)
             ->assertJson("message", ["The title field is required."])
             ->assertStatus(static::$VALIDATION_ERROR);
+    }
+
+    /**
+     * test create a new post and get validation error, with testing for message.
+     *
+     * @author karam mustafa
+     */
+    public function test_create_new_post()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+
+        $this->postJson(static::POST_API,[
+            'user_id' => $user->id,
+            'description' => 'dummy description',
+            'title' => 'dummy title',
+        ])->assertStatus(static::$SUCCESS_RESPONSE);
     }
 }

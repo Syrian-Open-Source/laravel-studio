@@ -146,10 +146,9 @@ abstract class BaseRepository implements IBaseRepository
      * @throws PublicException
      * @author karam mustafa
      */
-    public function create($data)
+    public function create($data = [])
     {
         try {
-
             return $this->model::create($this->resolveRequestDataToCreate($data));
 
         } catch (\Exception $e) {
@@ -300,7 +299,7 @@ abstract class BaseRepository implements IBaseRepository
     private function resolveRequestDataToCreate($request)
     {
 
-        $imagesKeys = config('public.images_keys_in_request');
+        $imagesKeys = config('public.images_keys_in_request') ?? [];
 
         foreach ($imagesKeys as $key) {
             if (isset($request[$key]) && $request[$key] != '') {
