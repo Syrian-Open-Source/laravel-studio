@@ -34,9 +34,10 @@ class PostTest extends BaseFeatureTest
      */
     public function test_create_new_post_and_get_validation_error()
     {
-        $response = $this->post(static::POST_API)
+        $this->postJson(static::POST_API)
             ->assertStatus(static::$VALIDATION_ERROR);
     }
+
     /**
      * test create a new post and get validation error, with testing for message.
      *
@@ -45,7 +46,7 @@ class PostTest extends BaseFeatureTest
     public function test_create_new_post_and_get_validation_error_and_test_message()
     {
         $this->post(static::POST_API)
-            ->assertJson("message" , ["The title field is required."])
+            ->assertJson("message", ["The title field is required."])
             ->assertStatus(static::$VALIDATION_ERROR);
     }
 }
