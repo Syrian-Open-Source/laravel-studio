@@ -25,7 +25,7 @@ class PostTest extends BaseFeatureTest
      * @author karam mustafa
      * @var \App\Models\User
      */
-    private User $user = null;
+    private ?User $user = null;
 
     /**
      * test get all posts.
