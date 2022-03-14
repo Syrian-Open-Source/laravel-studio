@@ -34,7 +34,7 @@ class PostTest extends BaseFeatureTest
      */
     public function test_create_new_post_and_get_validation_error()
     {
-        $this->post(static::POST_API)
+        $response = $this->post(static::POST_API)
             ->assertStatus(static::$VALIDATION_ERROR);
     }
     /**
