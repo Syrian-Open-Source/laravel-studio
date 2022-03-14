@@ -3,10 +3,18 @@
 namespace Tests\Feature;
 
 
-
+/**
+ * Class PostTest
+ *
+ * @author karam mustafa
+ * @package Tests\Feature
+ */
 class PostTest extends BaseFeatureTest
 {
 
+    /**
+     *
+     */
     const POST_API = '/api/posts';
 
     /**
@@ -27,7 +35,7 @@ class PostTest extends BaseFeatureTest
     public function test_create_new_post_and_get_validation_error()
     {
         $this->post(static::POST_API)
-            ->assertStatus($this->VALIDATION_ERROR);
+            ->assertStatus(static::$VALIDATION_ERROR);
     }
     /**
      * test create a new post and get validation error, with testing for message.
@@ -38,6 +46,6 @@ class PostTest extends BaseFeatureTest
     {
         $this->post(static::POST_API)
             ->assertJson("message" , ["The title field is required."])
-            ->assertStatus($this->VALIDATION_ERROR);
+            ->assertStatus(static::$VALIDATION_ERROR);
     }
 }
